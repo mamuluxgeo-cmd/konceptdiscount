@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Koncept ფასდაკლების კალკულატორი</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <div class="hero">
+      <div class="logo-wrap">
+        <div class="logo-mark">K</div>
+      </div>
+      <h1>Koncept კალკულატორი</h1>
+      <p>აირჩიე პროდუქცია, დაამატე თანხები და მიუთითე ფასდაკლების ტიპი</p>
+    </div>
+
+    <div class="card">
+
+      <div class="top-actions">
+        <div class="status" id="status">მონაცემები იტვირთება...</div>
+        <button class="small-btn" id="refreshBtn" type="button">განახლება</button>
+      </div>
+
+      <label for="price">თანხა</label>
+      <input id="price" type="number" inputmode="decimal" placeholder="მაგ: 584">
+
+      <div class="section-title">პროდუქცია</div>
+      <div id="products" class="products"></div>
+
+      <button class="add-btn" id="addBtn" type="button">დამატება</button>
+
+      <div class="section-title list-title">დამატებული პროდუქცია</div>
+      <div id="cartList" class="cart-list">
+        <div class="empty">ჯერ პროდუქცია დამატებული არ არის</div>
+      </div>
+
+      <div class="section-title discount-title">ფასდაკლების ტიპი</div>
+      <div id="discountTypes" class="discount-types"></div>
+
+      <div class="summary">
+        <div class="summary-row">
+          <span>საწყისი ჯამი:</span>
+          <strong id="totalOriginal">0 ₾</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>დაკლებული თანხა:</span>
+          <strong id="totalDiscount">0 ₾</strong>
+        </div>
+
+        <div class="summary-row final">
+          <span>გადასახდელი:</span>
+          <strong id="totalFinal">0 ₾</strong>
+        </div>
+      </div>
+
+      <button class="clear-btn" id="clearBtn" type="button">გასუფთავება</button>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
