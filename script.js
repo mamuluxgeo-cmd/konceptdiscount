@@ -1,11 +1,11 @@
 const API = "https://script.google.com/macros/s/AKfycbyHTK1hoyDVNNSeddY5dnD8v9plarVE4AhREy_nDTFvX-YbKRgZQ02U0VuT6cxkz-utcQ/exec";
 
-const CACHE_KEY = "koncept_discount_data_cache_v1";
-const CACHE_TIME_KEY = "koncept_discount_data_cache_time_v1";
+const CACHE_KEY = "koncept_discount_data_cache_v2";
+const CACHE_TIME_KEY = "koncept_discount_data_cache_time_v2";
 const CACHE_DURATION = 30 * 1000;
 
 const priceInput = document.getElementById("price");
-const productsContainer = document.getElementById("products");
+const productSelect = document.getElementById("productSelect");
 const discountTypesContainer = document.getElementById("discountTypes");
 const cartList = document.getElementById("cartList");
 const addBtn = document.getElementById("addBtn");
@@ -22,7 +22,6 @@ let appData = {
   products: []
 };
 
-let selectedProductName = "";
 let selectedDiscountKey = "";
 let cart = [];
 
@@ -125,31 +124,24 @@ function applyData(data) {
 
 function renderProducts() {
   if (!appData.products.length) {
-    productsContainer.innerHTML = `<div class="empty">პროდუქცია არ არის დამატებული</div>`;
+    productSelect.innerHTML = `<option value="">პროდუქცია არ არის დამატებული</option>`;
     return;
   }
 
-  productsContainer.innerHTML = appData.products.map(product => {
-    const activeClass = product.name === selectedProductName ? "active" : "";
+  const currentValue = productSelect.value;
 
-    return `
-      <button class="product-btn ${activeClass}" type="button" data-product="${escapeHtml(product.name)}">
-        <span class="product-name">${escapeHtml(product.name)}</span>
-      </button>
-    `;
-  }).join("");
+  productSelect.innerHTML = `
+    <option value="">აირჩიე პროდუქცია</option>
+    ${appData.products.map(product => {
+      return `<option value="${escapeHtml(product.name)}">${escapeHtml(product.name)}</option>`;
+    }).join("")}
+  `;
 
-  document.querySelectorAll(".product-btn").forEach(button => {
-    button.addEventListener("click", () => {
-      selectedProductName = button.dataset.product;
+  const stillExists = appData.products.some(product => product.name === currentValue);
 
-      document.querySelectorAll(".product-btn").forEach(btn => {
-        btn.classList.remove("active");
-      });
-
-      button.classList.add("active");
-    });
-  });
+  if (stillExists) {
+    productSelect.value = currentValue;
+  }
 }
 
 function renderDiscountTypes() {
@@ -184,10 +176,12 @@ function renderDiscountTypes() {
 }
 
 function addItem() {
+  const selectedProductName = productSelect.value;
   const price = parsePrice(priceInput.value);
 
   if (!selectedProductName) {
     setStatus("ჯერ აირჩიე პროდუქცია");
+    productSelect.focus();
     return;
   }
 
@@ -226,12 +220,8 @@ function removeItem(itemId) {
 
 function clearAll() {
   cart = [];
-  selectedProductName = "";
+  productSelect.value = "";
   priceInput.value = "";
-
-  document.querySelectorAll(".product-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
 
   setStatus("გასუფთავებულია");
   renderCart();
@@ -255,8 +245,7 @@ function renderCart() {
         <div class="cart-main">
           <div class="cart-product">${escapeHtml(item.productName)}</div>
           <div class="cart-info">
-            ${formatMoney(item.price)} ₾ → ${formatMoney(finalPrice)} ₾ 
-            <span>(${formatPercent(percent)})</span>
+            ${formatMoney(item.price)} ₾ → ${formatMoney(finalPrice)} ₾
           </div>
         </div>
 
@@ -328,16 +317,6 @@ function formatMoney(value) {
   const number = Number(value) || 0;
 
   return Math.round(number).toLocaleString("ka-GE");
-}
-
-function formatPercent(value) {
-  const number = Number(value) || 0;
-
-  if (number === 0) {
-    return "0%";
-  }
-
-  return "-" + number.toLocaleString("ka-GE") + "%";
 }
 
 function setStatus(text) {
