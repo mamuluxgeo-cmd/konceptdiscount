@@ -176,14 +176,57 @@ input:focus {
   color: #111827;
 }
 
-.products,
+.select-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.select-wrap::after {
+  content: "⌄";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-56%);
+  font-size: 24px;
+  font-weight: 900;
+  color: #4f46e5;
+  pointer-events: none;
+}
+
+select {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 48px 0 18px;
+  border: 2px solid rgba(17, 24, 39, 0.12);
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 900;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.70));
+  box-shadow:
+    0 12px 26px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.95);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: 0.25s ease;
+}
+
+select:focus {
+  border-color: #7c3aed;
+  box-shadow:
+    0 0 0 5px rgba(124, 58, 237, 0.14),
+    0 12px 28px rgba(124, 58, 237, 0.12);
+}
+
 .discount-types {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.product-btn,
 .discount-btn {
   min-height: 56px;
   padding: 13px 14px;
@@ -207,7 +250,6 @@ input:focus {
     background 0.22s ease;
 }
 
-.product-btn::before,
 .discount-btn::before {
   content: "";
   position: absolute;
@@ -220,7 +262,6 @@ input:focus {
   opacity: 0;
 }
 
-.product-btn:hover,
 .discount-btn:hover {
   transform: translateY(-3px);
   box-shadow:
@@ -228,13 +269,11 @@ input:focus {
     inset 0 1px 0 rgba(255,255,255,1);
 }
 
-.product-btn:hover::before,
 .discount-btn:hover::before {
   opacity: 1;
   transform: translateX(45%) rotate(18deg);
 }
 
-.product-btn.active,
 .discount-btn.active {
   color: white;
   transform: translateY(-4px) scale(1.025);
@@ -245,7 +284,6 @@ input:focus {
     0 0 28px rgba(236, 72, 153, 0.36);
 }
 
-.product-name,
 .discount-name {
   display: block;
   position: relative;
@@ -254,7 +292,7 @@ input:focus {
 
 .add-btn {
   width: 100%;
-  margin-top: 16px;
+  margin-top: 0;
   border: 0;
   padding: 17px 18px;
   border-radius: 22px;
@@ -429,17 +467,20 @@ input:focus {
     text-align: center;
   }
 
-  .products,
   .discount-types {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
 
-  .product-btn,
   .discount-btn {
     min-height: 54px;
     border-radius: 18px;
     font-size: 13px;
+  }
+
+  select {
+    min-height: 56px;
+    font-size: 15px;
   }
 
   .summary-row.final strong {
