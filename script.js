@@ -1,7 +1,7 @@
 const API = "https://script.google.com/macros/s/AKfycbyHTK1hoyDVNNSeddY5dnD8v9plarVE4AhREy_nDTFvX-YbKRgZQ02U0VuT6cxkz-utcQ/exec";
 
-const CACHE_KEY = "koncept_discount_data_cache_v2";
-const CACHE_TIME_KEY = "koncept_discount_data_cache_time_v2";
+const CACHE_KEY = "koncept_discount_data_cache_v1";
+const CACHE_TIME_KEY = "koncept_discount_data_cache_time_v1";
 const CACHE_DURATION = 30 * 1000;
 
 const priceInput = document.getElementById("price");
@@ -317,6 +317,16 @@ function formatMoney(value) {
   const number = Number(value) || 0;
 
   return Math.round(number).toLocaleString("ka-GE");
+}
+
+function formatPercent(value) {
+  const number = Number(value) || 0;
+
+  if (number === 0) {
+    return "0%";
+  }
+
+  return "-" + number.toLocaleString("ka-GE") + "%";
 }
 
 function setStatus(text) {
